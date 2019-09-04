@@ -49,7 +49,7 @@ const techSize = useMemo(() => tech.length, [tech]);
 // ins this case, the variable 'techSize' changes only when the variable 'tech' changes.
 ```
 
-# useCallback
+## useCallback
 
 Is like `useMemo`, but it returns a function and the returned function is remounted only when the variable in array changes.
 
