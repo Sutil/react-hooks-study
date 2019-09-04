@@ -1,68 +1,62 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# React Hooks
 
-In the project directory, you can run:
+Project to study react hoks
 
-### `npm start`
+useState, useEffect, useMemo, useCallback
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## useState
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Set the initials state on the component.
+```javascript
+ const [tech, setTech] = useState([]); // initializing states;
+```
 
-### `npm test`
+## useEffect
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Executed when one or more variables changes or when the component is mounted.
 
-### `npm run build`
+```javascript
+useEffect(() => {
+    const storage = localStorage.getItem('tech');
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    if(storage) {
+      setTech(JSON.parse(storage));
+    }
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+    return () => {
+      console.log('Executed when the component is unmounted');
+    };
+  },
+  [] // when this array is empty, this hook is executed on component is mounted.
+);
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```javascript
+ useEffect(() => {
+    localStorage.setItem('tech', JSON.stringify(tech));
+  },
+  [tech] // when this array is populated, this hook is executed when the variable at array changes.
+);
+```
 
-### `npm run eject`
+## useMemo
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Executed when you want to change variable based in another changes.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+const techSize = useMemo(() => tech.length, [tech]);
+// ins this case, the variable 'techSize' changes only when the variable 'tech' changes.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# useCallback
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Is like `useMemo`, but it returns a function and the returned function is remounted only when the variable in array changes.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```javascript
+const handleAdd = useCallback(() => {
+    setTech([...tech, newTech]);
+    setNewTech('');
+  }, [newTech, tech]);
+  // without hooks, the function handleAdd would be recreated every time that setState was called, but in this way, the function in recreate only when the variables newTech and tech change.
+```
