@@ -5,6 +5,9 @@ Project to study react hoks
 
 useState, useEffect, useMemo, useCallback
 
+```javascript
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+```
 ## useState
 
 Set the initials state on the component.
