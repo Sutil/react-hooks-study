@@ -29,8 +29,6 @@ function App() {
 
   const techSize = useMemo(() => tech.length, [tech]);
 
-
-
   return (
     <>
       <ul>
